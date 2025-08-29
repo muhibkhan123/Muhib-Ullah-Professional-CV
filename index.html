@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhib Ullah - CV</title>
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- REPLACED: Using a specialized, high-quality PDF generation library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        /* General Body Styles */
+        :root {
+            --primary-color: #3498db; /* Bright Blue */
+            --secondary-color: #2c3e50; /* Dark Slate Blue */
+            --light-gray-color: #ecf0f1;
+            --dark-gray-color: #7f8c8d;
+            --background-color: #e9e9e9;
+            --card-background: #ffffff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fillBar {
+            from { width: 0%; }
+            to { width: var(--skill-level); }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .resume-container {
+            display: flex;
+            max-width: 950px;
+            margin: 30px auto;
+            background-color: var(--card-background);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Left Column Styling */
+        .left-column {
+            background-color: var(--secondary-color);
+            color: var(--light-gray-color);
+            padding: 40px;
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-pic-container {
+            position: relative;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-pic {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 6px solid var(--primary-color);
+            object-fit: cover;
+        }
+        
+        /* --- NEW: Upload Button Styles --- */
+        .upload-label {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px; /* Match image width */
+            height: 50px; /* Cover bottom part of image */
+            background-color: rgba(44, 62, 80, 0.7);
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 0.9em;
+            border-bottom-left-radius: 80px; /* Match circular shape */
+            border-bottom-right-radius: 80px;
+        }
+
+        .profile-pic-container:hover .upload-label {
+            opacity: 1;
+        }
+        
+        .upload-label i {
+            margin-bottom: 4px;
+        }
+        
+        #upload-photo {
+            display: none;
+        }
+
+
+        .left-column h2 {
+            color: var(--card-background);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin-top: 25px;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            width: 100%;
+            text-align: left;
+        }
+
+        .contact-info, .skills, .languages {
+            width: 100%;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info a {
+            color: var(--light-gray-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: var(--primary-color);
+        }
+
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .skills ul, .languages ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .skills li, .languages li {
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .skill-bar {
+            background-color: #34495e;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 8px;
+            margin-top: 5px;
+        }
+
+        .skill-level {
+            background-color: var(--primary-color);
+            height: 100%;
+            border-radius: 5px;
+            animation: fillBar 1.5s ease-out;
+        }
+
+        /* Right Column Styling */
+        .right-column {
+            padding: 50px;
+            width: 65%;
+            position: relative;
+        }
+        
+        /* --- Download Button --- */
+        .download-btn {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+        .download-btn i {
+            margin-right: 8px;
+        }
+        .download-btn:disabled {
+            background-color: var(--dark-gray-color);
+            cursor: not-allowed;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            text-align: left;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--secondary-color);
+            font-size: 3em;
+            font-weight: 700;
+        }
+
+        .header h2 {
+            margin: 5px 0 0;
+            color: var(--dark-gray-color);
+            font-weight: 400;
+            font-size: 1.6em;
+        }
+
+        .summary {
+            margin-bottom: 40px;
+            font-style: italic;
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+
+        .right-column .section {
+            margin-bottom: 35px;
+        }
+
+        .right-column .section h2 {
+            font-size: 1.5em;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .right-column .section h2 i {
+            margin-right: 12px;
+        }
+
+        .job {
+            margin-bottom: 25px;
+        }
+
+        .job h3 {
+            margin: 0 0 10px;
+            font-size: 1.2em;
+            color: #34495e;
+        }
+
+        .right-column ul {
+            padding-left: 20px;
+            list-style-position: outside;
+        }
+
+        .right-column ul li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .education-item {
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid var(--primary-color);
+        }
+        
+        .education-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 2px solid white;
+        }
+
+        .education-item .year {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+
+        .education-item p {
+            margin: 0;
+        }
+
+        .footer {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 20px;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: var(--dark-gray-color);
+        }
+        
+        /* --- MORE AGGRESSIVE PDF Export Styles for Single-Page Output --- */
+        .pdf-export {
+            box-shadow: none !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            max-width: 950px !important;
+            animation: none !important;
+        }
+        .pdf-export * {
+            animation: none !important;
+            transition: none !important;
+        }
+        .pdf-export .left-column { padding: 25px; }
+        .pdf-export .right-column { padding: 35px; }
+        .pdf-export .header { margin-bottom: 15px; padding-bottom: 15px; }
+        .pdf-export h1 { font-size: 2.7em; }
+        .pdf-export .header h2 { font-size: 1.4em; }
+        .pdf-export .left-column h2 { font-size: 1.2em; margin-bottom: 10px; margin-top: 15px; }
+        .pdf-export .right-column .section h2 { font-size: 1.25em; margin-bottom: 10px; }
+        .pdf-export p, .pdf-export li, .pdf-export a, .pdf-export strong, .pdf-export h4 { font-size: 0.85rem; line-height: 1.45; }
+        .pdf-export .right-column ul { padding-left: 18px; }
+        .pdf-export .right-column ul li { margin-bottom: 6px; }
+        .pdf-export .summary { margin-bottom: 20px; font-size: 0.95em !important; }
+        .pdf-export .section { margin-bottom: 15px; }
+        .pdf-export .job { margin-bottom: 15px; }
+        .pdf-export .job h3 { font-size: 1.05em; margin-bottom: 6px; }
+        .pdf-export .education-item { margin-bottom: 10px; }
+        .pdf-export .footer { padding-top: 10px; margin-top: 15px; }
+        .pdf-export .profile-pic { width: 150px; height: 150px; }
+        .pdf-export .skills li, .pdf-export .languages li { margin-bottom: 10px; }
+        .pdf-export .upload-label { display: none !important; } /* Hide upload button in PDF */
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .resume-container {
+                flex-direction: column;
+            }
+            .left-column, .right-column {
+                width: 100%;
+                padding: 25px;
+                box-sizing: border-box;
+            }
+            .header h1 {
+                font-size: 2.5em;
+            }
+            .download-btn {
+                position: static;
+                margin-bottom: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+            .right-column { padding-top: 25px; }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="resume-container" id="resumeToExport">
+        <!-- Left Column -->
+        <div class="left-column">
+            <div class="profile-pic-container">
+                <img src="http://googleusercontent.com/file_content/1" alt="Muhib Ullah" class="profile-pic" id="profile-img">
+                <label for="upload-photo" class="upload-label">
+                    <i class="fas fa-camera"></i>
+                    <span>Change Photo</span>
+                </label>
+                <input type="file" id="upload-photo" accept="image/*">
+            </div>
+            <div class="contact-info">
+                <h2>Contact</h2>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:muhib7196@gmail.com">muhib7196@gmail.com</a></p>
+                <p><i class="fas fa-phone"></i> 0334-3737061</p>
+                <p><i class="fas fa-map-marker-alt"></i> Domel, Bannu, Pakistan</p>
+            </div>
+
+            <div class="skills">
+                <h2>Technical Skills</h2>
+                <ul>
+                    <li>Web Development<div class="skill-bar"><div class="skill-level" style="--skill-level: 90%;"></div></div></li>
+                    <li>Automation<div class="skill-bar"><div class="skill-level" style="--skill-level: 85%;"></div></div></li>
+                    <li>Adobe Photoshop<div class="skill-bar"><div class="skill-level" style="--skill-level: 80%;"></div></div></li>
+                    <li>MS Office Suite<div class="skill-bar"><div class="skill-level" style="--skill-level: 95%;"></div></div></li>
+                </ul>
+            </div>
+            
+            <div class="skills">
+                <h2>Soft Skills</h2>
+                 <ul>
+                    <li>Leadership & Teamwork<div class="skill-bar"><div class="skill-level" style="--skill-level: 90%;"></div></div></li>
+                    <li>Problem-Solving<div class="skill-bar"><div class="skill-level" style="--skill-level: 95%;"></div></div></li>
+                    <li>Communication<div class="skill-bar"><div class="skill-level" style="--skill-level: 85%;"></div></div></li>
+                </ul>
+            </div>
+
+            <div class="languages">
+                <h2>Languages</h2>
+                <ul>
+                    <li>English<div class="skill-bar"><div class="skill-level" style="--skill-level: 80%;"></div></div></li>
+                    <li>Urdu<div class="skill-bar"><div class="skill-level" style="--skill-level: 100%;"></div></div></li>
+                    <li>Pashto<div class="skill-bar"><div class="skill-level" style="--skill-level: 100%;"></div></div></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <button id="downloadBtn" class="download-btn">
+                <i class="fas fa-download"></i> Download as PDF
+            </button>
+
+            <div class="header">
+                <h1>Muhib Ullah</h1>
+                <h2>Computer Professional & Developer</h2>
+            </div>
+            <div class="summary">
+                <p>A passionate computer enthusiast seeking a position in an innovative and dynamic organization. I aim to leverage my technical skills and enthusiasm for learning to contribute effectively to the organization's success while continuously expanding my knowledge and expertise in the field of technology.</p>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-briefcase"></i> Experience</h2>
+                <div class="job">
+                    <h3>Part-time Graphic Designer & Computer Operator</h3>
+                    <h4>Almadina Computer Academy | 2021 - Present</h4>
+                    <ul>
+                        <li>Provided graphic design services using Adobe Photoshop for academy and client projects.</li>
+                        <li>Managed computer operations, data entry, and administrative tasks.</li>
+                        <li>Developed and implemented automation scripts for browser and desktop tasks using JavaScript, AutoHotkey (AHK), and Python to improve workflow efficiency.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-graduation-cap"></i> Academic Qualification</h2>
+                <div class="education-item">
+                    <p class="year">2025</p>
+                    <p><strong>B.Sc</strong> - Bannu University</p>
+                </div>
+                <div class="education-item">
+                    <p class="year">2021</p>
+                    <p><strong>ICS</strong> - BISE Bannu</p>
+                </div>
+                <div class="education-item">
+                    <p class="year">2019</p>
+                    <p><strong>Matric</strong> - BISE Bannu</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-user-check"></i> References</h2>
+                <p><strong>Yasin Ullah</strong> (Executive, NADRA, BISP Domel)</p>
+                <p>Phone: +92-336 1593533</p>
+            </div>
+            
+            <div class="footer">
+                <p><strong>Address:</strong> Domel, Bannu, Pakistan</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- THIS IS THE DEFINITIVE SCRIPT TO FIX THE BLURRINESS AND SINGLE-PAGE ISSUE -->
+    <script>
+        // PDF Generation
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+            const btn = this;
+            const originalText = btn.innerHTML;
+            const resumeContainer = document.getElementById('resumeToExport');
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            btn.disabled = true;
+            btn.style.display = 'none';
+
+            // Temporarily apply the compact styles for single-page PDF generation
+            resumeContainer.classList.add('pdf-export');
+
+            // Options for the new library to ensure the highest quality
+            const options = {
+                margin:       [0.2, 0.2, 0.2, 0.2], // Add a small margin
+                filename:     'Muhib_Ullah_CV_High_Quality.pdf',
+                image:        { type: 'png', quality: 1.0 }, // Use lossless PNG format
+                html2canvas:  { 
+                    scale: 4, // Render at 4x the resolution for extreme clarity
+                    dpi: 300, // Explicitly set to print quality DPI
+                    letterRendering: true, 
+                    useCORS: true 
+                },
+                jsPDF:        { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+
+            // Use the new html2pdf library to generate a high-quality PDF
+            html2pdf().from(resumeContainer).set(options).save().then(() => {
+                // Restore the button and remove compact styles after the download
+                resumeContainer.classList.remove('pdf-export');
+                btn.style.display = 'flex';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error("PDF Generation failed:", err);
+                // Restore the button even if there's an error
+                resumeContainer.classList.remove('pdf-export');
+                btn.style.display = 'flex';
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        });
+
+        // --- NEW: Profile Picture Upload ---
+        document.getElementById('upload-photo').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-img').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+</body>
+</html>
+
