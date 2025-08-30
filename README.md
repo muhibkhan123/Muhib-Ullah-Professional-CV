@@ -95,5 +95,4 @@ The `upload-photo` input has its own event listener:
 * **HTML5:** For the structure and content of the CV.
 * **CSS3:** For all styling, including the layout, colors, animations, and responsive design.
 * **JavaScript (ES6):** For the interactive functionality.
-* **[html2pdf.js](https://github.com/eKoopmans/html2pdf.js/):** A powerful client-side JavaScript library used to convert the HTML content into a high-fidelity, single-page PDF.
 * **[Font Awesome](https://fontawesome.com/):** For the icons used throughout the CV.
